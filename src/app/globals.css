@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "@copilotkit/react-ui/v2/styles.css";
 
 :root {
   --background: #ffffff;

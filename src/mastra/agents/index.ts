@@ -4,16 +4,22 @@ import { weatherTool } from "@/mastra/tools";
 import { LibSQLStore } from "@mastra/libsql";
 import { z } from "zod";
 import { Memory } from "@mastra/memory";
+import { createOpenAI } from "@ai-sdk/openai";
 
 export const AgentState = z.object({
   proverbs: z.array(z.string()).default([]),
 });
 
+const openaiProvider = createOpenAI({
+  apiKey: '<KEY>'
+})
+
 export const weatherAgent = new Agent({
   id: "weather-agent",
   name: "Weather Agent",
   tools: { weatherTool },
-  model: openai("gpt-4o"),
+  //model: openaiProvider.chat('gpt-oss-120b'),
+  model: openaiProvider.chat('gpt-5.2'),
   instructions: "You are a helpful assistant.",
   memory: new Memory({
     storage: new LibSQLStore({
@@ -24,6 +30,7 @@ export const weatherAgent = new Agent({
       workingMemory: {
         enabled: true,
         schema: AgentState,
+        scope: "thread",
       },
     },
   }),
