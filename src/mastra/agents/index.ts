@@ -1,4 +1,3 @@
-import { openai } from "@ai-sdk/openai";
 import { Agent } from "@mastra/core/agent";
 import { weatherTool } from "@/mastra/tools";
 import { LibSQLStore } from "@mastra/libsql";
@@ -11,7 +10,7 @@ export const AgentState = z.object({
 });
 
 const openaiProvider = createOpenAI({
-  apiKey: '<KEY>'
+  apiKey: process.env.OPENAI_API_KEY
 })
 
 export const weatherAgent = new Agent({
